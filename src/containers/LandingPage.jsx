@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faChartLine, faPiggyBank, faWallet, faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import { Link } from 'react-router-dom'
 
 const LandingPage = () => {
     const [isLogin, setIsLogin] = useState(true)
@@ -52,7 +53,8 @@ const LandingPage = () => {
 
             <div className="md:w-1/2 text-white p-8 flex flex-col justify-center">
                 <div className="max-w-md mx-auto">
-                    <h1 className="text-4xl font-bold mb-6">Personal Finance Tracker</h1>
+                    <Link to={'/home'}><h1 className="text-4xl font-bold mb-6">Personal Finance Tracker</h1></Link>
+                    
                     <p className="text-xl mb-8 opacity-90">Take control of your financial future with our comprehensive tracking tools.</p>
 
                     <div className=" bg-opacity-10 border-1 border-white rounded-xl p-6 backdrop-blur-sm">
