@@ -1,0 +1,49 @@
+import React from 'react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
+
+const data = [
+  { month: 'Jan', income: 12000, expense: 10000 },
+  { month: 'Feb', income: 15000, expense: 11000 },
+  { month: 'Mar', income: 10000, expense: 13000 },
+  { month: 'Apr', income: 17000, expense: 14000 },
+  { month: 'May', income: 21000, expense: 18000 },
+  { month: 'Jun', income: 25000, expense: 20000 },
+  { month: 'Jul', income: 23000, expense: 24000 }
+];
+
+function GraphSection() {
+  return (
+    <div className="w-full h-80 bg-white rounded-2xl shadow-md p-4">
+      <h2 className="text-lg font-semibold mb-4">Cash Flow</h2>
+      <ResponsiveContainer width="100%" height="90%">
+        <LineChart data={data}>
+          <CartesianGrid stroke="#ccc" horizontal={false} vertical={false} />
+
+          <XAxis dataKey="month" axisLine={false} />
+          <YAxis
+  domain={[0, 30000]}
+  tickFormatter={(value) => `${value / 1000}k`}
+  axisLine={false}
+  tickLine={false}
+/>
+
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="income" stroke="#6366f1" strokeWidth={3} name="Income" />
+          <Line type="monotone" dataKey="expense" stroke="#facc15" strokeWidth={3} name="Expense" />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+export default GraphSection;
