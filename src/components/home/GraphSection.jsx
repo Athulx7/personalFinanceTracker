@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -25,22 +25,20 @@ function GraphSection() {
     <div className="w-full h-80 bg-white rounded-2xl shadow-md p-4">
       <h2 className="text-lg font-semibold mb-4">Cash Flow</h2>
       <ResponsiveContainer width="100%" height="90%">
-        <LineChart data={data}>
+        <BarChart data={data}>
           <CartesianGrid stroke="#ccc" horizontal={false} vertical={false} />
-
           <XAxis dataKey="month" axisLine={false} />
           <YAxis
-  domain={[0, 30000]}
-  tickFormatter={(value) => `${value / 1000}k`}
-  axisLine={false}
-  tickLine={false}
-/>
-
+            domain={[0, 30000]}
+            tickFormatter={(value) => `${value / 1000}k`}
+            axisLine={false}
+            tickLine={false}
+          />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="income" stroke="#6366f1" strokeWidth={3} name="Income" />
-          <Line type="monotone" dataKey="expense" stroke="#facc15" strokeWidth={3} name="Expense" />
-        </LineChart>
+          <Bar dataKey="income" fill="#6366f1" name="Income" barSize={24} radius={[4, 4, 0, 0]} />
+          <Bar dataKey="expense" fill="#facc15" name="Expense" barSize={24} radius={[4, 4, 0, 0]} />
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );

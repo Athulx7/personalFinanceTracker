@@ -4,6 +4,9 @@ import LandingPage from './containers/LandingPage'
 import HomeDashBoard from './containers/HomeDashBoard'
 import MainDash from './components/home/MainDash'
 import MainWallet from './components/wallet/MainWallet'
+import MainMyWallet from './components/wallet/MainMyWallet'
+import MainActiviExpense from './components/activity-expense/MainActiviExpense'
+import MainActivityExpence from './components/activity-expense/MainActivityExpence'
 
 function App() {
   return (
@@ -13,8 +16,11 @@ function App() {
 
       <Route path='/home' element={<HomeDashBoard />} >
         <Route index element={<MainDash />} />
-        <Route path='wallet' element={<MainWallet />} />
-      </Route>
+        {/* <Route path='wallet' element={<MainWallet />} /> */}
+        <Route path='wallet' element={<MainMyWallet />} />
+        <Route path='activity_income' element={<MainActiviExpense />} />
+        <Route path='activity_expence' element={<MainActivityExpence />} />
+      </Route> 
     </Routes>
     </>
   )

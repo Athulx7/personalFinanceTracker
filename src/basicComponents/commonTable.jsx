@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import './basicCss/comCss.css'
-function CommonTable({ columns, data, tableControls }) {
+function CommonTable({ columns, data, tableControls, customHeader }) {
   const [searchTerm, setSearchTerm] = useState("")
   const [entriesPerPage, setEntriesPerPage] = useState(10)
   const [currentPage, setCurrentPage] = useState(1)
@@ -23,9 +23,13 @@ function CommonTable({ columns, data, tableControls }) {
   const totalPages = Math.ceil(filteredData.length / entriesPerPage)
 
   return (
-    <div className="mx-4 md:mx-8 lg:mx-16 my-6 border bg-white border-gray-200 shadow-lg rounded-lg overflow-hidden">
-
-      <div className="flex flex-wrap justify-between items-center mb-4 gap-4 p-4">
+    <div className="mx-2 md:mx-3 my-6 border bg-white border-gray-200 shadow-lg rounded-lg overflow-hidden">
+      {customHeader && (
+        <div className="p-2 border-b border-gray-200">
+          {customHeader}
+        </div>
+      )}
+      <div className="flex flex-wrap justify-between items-center gap-4 p-4">
         <div className="flex items-center gap-2">
           <label className="text-sm text-gray-700">Show</label>
           <select
@@ -61,7 +65,7 @@ function CommonTable({ columns, data, tableControls }) {
               {columns.map((col, i) => (
                 <th
                   key={i}
-                  className="px-4 py-3 sticky top-0 text-black border-2 border-gray-200 font-medium whitespace-nowrap"
+                  className="px-4 py-2 sticky top-0 text-black border-2 border-gray-200 font-medium whitespace-nowrap"
                 >
                   {col.header}
                 </th>

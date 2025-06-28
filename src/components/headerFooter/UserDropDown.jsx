@@ -1,4 +1,4 @@
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp, faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -24,31 +24,41 @@ function UserDropDown() {
 
     return (
         <div className="relative" ref={dropdownRef}>
-            <div onClick={() => setOpen(!open)} className=' mt-2 mb-2 mr-2 py-1 px-3 cursor-pointer flex border-2 border-gray-200 rounded-lg'>
-                <div className="w-9 h-9 rounded-full bg-gray-200 text-indigo-600 flex items-center justify-center font-bold">
+            <button 
+                onClick={() => setOpen(!open)} 
+                className='flex items-center py-1 px-2 md:px-3 cursor-pointer border-2 border-gray-200 rounded-lg hover:bg-gray-50 transition-colors'
+                aria-label="User menu"
+                aria-expanded={open}
+            >
+                <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gray-200 text-indigo-600 flex items-center justify-center font-bold">
                     U
-                </div><span className='mt-1 ms-3 font-semibold'>User Name </span>
-                <div><FontAwesomeIcon className='text-indigo-500 mt-2 ms-2' icon={open ? faChevronUp : faChevronDown} /></div>
                 </div>
-
+                <span className='ms-2 font-semibold hidden md:inline'>User Name</span>
+                <FontAwesomeIcon 
+                    className='text-indigo-500 ms-1 md:ms-2 text-sm' 
+                    icon={open ? faChevronUp : faChevronDown} 
+                />
+            </button>
 
             {open && (
-                <div className="absolute right- w-44 border-2 border-gray-200 bg-white rounded-lg shadow-lg z-50">
-                    <ul className="flex flex-col text-sm">
+                <div className="absolute right-0 mt-1 w-48 border border-gray-200 bg-white rounded-lg shadow-lg z-50 overflow-hidden">
+                    <ul className="py-1">
                         <li
-                            className="px-4 py-2 border-b border-indigo-500 hover:bg-indigo-100 cursor-pointer font-semibold"
+                            className="px-4 py-2 hover:bg-indigo-50 cursor-pointer flex items-center"
                             onClick={() => {
                                 navigate('/profile');
                                 setOpen(false);
                             }}
                         >
-                            My Profile
+                            <FontAwesomeIcon icon={faUser} className="text-gray-500 mr-2" />
+                            <span className="font-medium">My Profile</span>
                         </li>
                         <li
-                            className="px-4 py-2 hover:bg-red-100 text-red-500 cursor-pointer font-semibold"
+                            className="px-4 py-2 hover:bg-red-50 cursor-pointer flex items-center"
                             onClick={handleLogout}
                         >
-                            Logout
+                            <FontAwesomeIcon icon={faSignOutAlt} className="text-red-500 mr-2" />
+                            <span className="font-medium text-red-500">Logout</span>
                         </li>
                     </ul>
                 </div>
