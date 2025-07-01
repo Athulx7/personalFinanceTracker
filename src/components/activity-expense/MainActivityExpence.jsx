@@ -9,7 +9,7 @@ function MainActivityExpence() {
             <div className=' overflow-y h-[80vh]'>
                 <div className='font-semibold text-xl md:text-2xl text-gray-800 mb-6'>
                     <FontAwesomeIcon icon={faRightLeft} className="w-5 text-center text-indigo-500" />
-                    <span className="ms-3">Activity - Expense editBy Thin</span>
+                    <span className="ms-3">Activity - Expense editBy Thin </span>
                 </div>
 
                 <div>
