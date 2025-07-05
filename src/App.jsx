@@ -7,6 +7,8 @@ import MainWallet from './components/wallet/MainWallet'
 import MainMyWallet from './components/wallet/MainMyWallet'
 import MainActiviExpense from './components/activity-expense/MainActiviExpense'
 import MainActivityExpence from './components/activity-expense/MainActivityExpence'
+import MainActivityIncome from './components/activity-income/MainActivityIncome'
+import MainIncomeTeest from './components/activity-income/MainIncomeTeest'
 
 function App() {
   return (
@@ -18,8 +20,10 @@ function App() {
         <Route index element={<MainDash />} />
         {/* <Route path='wallet' element={<MainWallet />} /> */}
         <Route path='wallet' element={<MainMyWallet />} />
-        <Route path='activity_income' element={<MainActiviExpense />} />
         <Route path='activity_expence' element={<MainActivityExpence />} />
+        {/* <Route path='activity_expence' element={<MainActiviExpense />} /> */}
+        {/* <Route path='activity_income' element={<MainActivityIncome />} /> */}
+        <Route path='activity_income' element = {<MainIncomeTeest />} />
       </Route> 
     </Routes>
     </>
