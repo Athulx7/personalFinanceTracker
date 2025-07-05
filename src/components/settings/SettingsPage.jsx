@@ -12,9 +12,9 @@ function SettingsPage() {
     })
 
     const [user, setUser] = useState({
-        name: 'John Doe',
-        email: 'john@example.com',
-        phone: '+91 9876543210'
+        name: 'User Name',
+        email: 'username@example.com',
+        phone: '+91 9999999999'
     })
 
 
