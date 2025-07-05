@@ -2,6 +2,7 @@ import { faRightLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import ExpenseSelection from './ExpenseSelection'
+import ExpenseTableView from './ExpenseTableView'
 
 function MainActivityExpence() {
     return (
@@ -17,7 +18,7 @@ function MainActivityExpence() {
                 </div>
 
                 <div className=''>
-                    
+                    <ExpenseTableView />
                 </div>
             </div>
         </>
