@@ -1,4 +1,4 @@
-import { faBars, faBook, faCircleInfo, faCircleLeft, faComment, faGear, faMessage, faRightLeft, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBook, faCircleInfo, faCircleLeft, faComment, faFile, faGear, faMessage, faRightLeft, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
@@ -89,7 +89,7 @@ function SideHeader({ collapsed }) {
                             className={({ isActive }) => `group flex items-center ${collapsed ? 'justify-center p-3' : 'px-3 py-2.5'} rounded-lg transition-all duration-200 ${isActive ? 'bg-indigo-500 text-white' : 'text-gray-600 hover:bg-indigo-50 hover:text-indigo-600'}`}
 
                         >
-                            <FontAwesomeIcon icon={faMessage} className="w-5 text-center" />
+                            <FontAwesomeIcon icon={faFile} className="w-5 text-center" />
                             {!collapsed && <span className="ms-3">Reports</span>}
                             {collapsed && (
                                 <span className="absolute left-full ml-4 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
@@ -153,7 +153,7 @@ function SideHeader({ collapsed }) {
 
             <div className='px-4 py-3'>
                 <NavLink
-                    to="/logout"
+                    to="/"
                     className="flex items-center px-3 py-2.5 rounded-lg transition-all duration-200 text-gray-600 hover:bg-red-50 hover:text-red-600"
                 >
                     <FontAwesomeIcon icon={faCircleLeft} className="w-5 text-center" />
