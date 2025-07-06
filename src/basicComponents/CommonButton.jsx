@@ -24,11 +24,11 @@ function CommonButton({
 
   const variantClasses = {
 
-    'primary': `bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500 border border-indigo-600 ${
+    'primary': `bg-indigo-500 text-white hover:bg-indigo-600 focus:ring-indigo-500 border border-indigo-500 ${
       disabled ? 'bg-indigo-400 border-indigo-400 cursor-not-allowed' : ''
     }`,
     
-    'primary-bordered': `bg-white text-indigo-600 hover:bg-indigo-50 border-2 border-indigo-600 focus:ring-indigo-500 ${
+    'primary-bordered': `bg-white text-indigo-500 hover:bg-indigo-50 border-2 border-indigo-600 focus:ring-indigo-500 ${
       disabled ? 'text-indigo-300 border-indigo-300 cursor-not-allowed' : ''
     }`,
     

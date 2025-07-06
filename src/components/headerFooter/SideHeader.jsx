@@ -1,4 +1,4 @@
-import { faBars, faBook, faCircleInfo, faCircleLeft, faComment, faFile, faGear, faMessage, faRightLeft, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo, faCircleLeft, faComment, faFile, faGear, faHouse, faMessage, faRightLeft, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
@@ -7,7 +7,7 @@ function SideHeader({ collapsed }) {
     return (
         <div className={`h-full flex flex-col justify-between ${collapsed ? 'px-2' : 'px-4'}`}>
             <div className="flex flex-col">
-                {/* Menu Section */}
+
                 <div className={`py-3 ${collapsed ? 'px-1' : 'px-1'}`}>
                     {!collapsed && (
                         <div className='font-semibold text-gray-500 text-sm uppercase tracking-wider mb-2'>
@@ -20,7 +20,7 @@ function SideHeader({ collapsed }) {
                             end
                             className={({ isActive }) => `flex items-center ${collapsed ? 'justify-center p-3' : 'px-3 py-2.5'} rounded-lg transition-all duration-200 ${isActive ? 'bg-indigo-500 text-white' : 'text-gray-600 hover:bg-indigo-50 hover:text-indigo-600'}`}
                         >
-                            <FontAwesomeIcon icon={faBars} className="w-5 text-center" />
+                            <FontAwesomeIcon icon={faHouse} className="w-5 text-center" />
                             {!collapsed && <span className="ms-3">Overview</span>}
                             {collapsed && (
                                 <span className="absolute left-full ml-4 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">

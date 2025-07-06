@@ -1,8 +1,128 @@
-import { faEdit, faPlus, faTrashAlt, faUniversity } from '@fortawesome/free-solid-svg-icons';
+import { faCreditCard, faEdit, faMobileAlt, faMoneyBillAlt, faPlus, faTrashAlt, faUniversity } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react'
+import React, { useState } from 'react'
+import CommonModal from '../../basicComponents/CommonModal';
 
 function AddViewWalletSection() {
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const walletTypes = [
+        { value: 'bank', label: 'Bank Account', icon: faUniversity },
+        { value: 'credit', label: 'Credit Card', icon: faCreditCard },
+        { value: 'cash', label: 'Cash', icon: faMoneyBillAlt },
+        { value: 'digital', label: 'Digital Wallet', icon: faMobileAlt }
+    ];
+    const [newWallet, setNewWallet] = useState({
+        name: '',
+        type: 'bank',
+        balance: '',
+        currency: '₹'
+    });
+    const addNewWalletForm = () => (
+        <form className="space-y-4">
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Wallet Name *</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={''}
+                    onChange={''}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="e.g., SBI Savings Account"
+                    required
+                />
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Wallet Type *</label>
+                <div className="grid grid-cols-2 gap-2">
+                    {walletTypes.map((type) => (
+                        <label
+                            key={type.value}
+                            className={`flex items-center p-3 border rounded-md cursor-pointer ${newWallet.type === type.value
+                                    ? 'border-indigo-500 bg-indigo-50'
+                                    : 'border-gray-300 hover:bg-gray-50'
+                                }`}
+                        >
+                            <input
+                                type="radio"
+                                name="type"
+                                value={type.value}
+                                checked={newWallet.type === type.value}
+                                onChange={''}
+                                className="hidden"
+                                required
+                            />
+                            <FontAwesomeIcon
+                                icon={type.icon}
+                                className={`mr-2 ${newWallet.type === type.value
+                                        ? 'text-indigo-600'
+                                        : 'text-gray-500'
+                                    }`}
+                            />
+                            <span>{type.label}</span>
+                        </label>
+                    ))}
+                </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Initial Balance *</label>
+                    <div className="relative">
+                        <select
+                            name="currency"
+                            value={newWallet.currency}
+                            onChange={''}
+                            className="absolute left-0 top-0 h-full px-2 border-r border-gray-300 bg-gray-100 rounded-l-md"
+                        >
+                            <option >99</option>
+                        </select>
+                        <input
+                            type="number"
+                            name="balance"
+                            value={newWallet.balance}
+                            onChange={''}
+                            className="w-full pl-12 p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                            placeholder="0.00"
+                            step="0.01"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Currency *</label>
+                    <select
+                        name="currency"
+                        value={newWallet.currency}
+                        onChange={''}
+                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                        required
+                    >
+
+                        <option >99</option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div className="flex justify-end space-x-3 pt-4">
+                <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                >
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                >
+                    Add Wallet
+                </button>
+            </div>
+        </form>
+    );
     return (
         <>
             <div>
@@ -104,12 +224,21 @@ function AddViewWalletSection() {
                     </div>
 
 
-                    <div className="border-2 border-dashed rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-white">
+                    <div onClick={() => setIsModalOpen(true)} className="border-2 border-dashed rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer hover:bg-white">
                         <FontAwesomeIcon icon={faPlus} className="text-gray-400 mb-2" size="lg" />
                         <span className="text-gray-500">Add New Wallet</span>
                     </div>
                 </div>
             </div>
+
+
+            <CommonModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title="Add New Wallet"
+                body={addNewWalletForm()}
+                size='2xl'
+            />
         </>
     )
 }
