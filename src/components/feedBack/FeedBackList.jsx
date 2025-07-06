@@ -58,7 +58,6 @@ function FeedBackList() {
 
             </div>
 
-            {/* Feedback List */}
             <div className="space-y-6">
                 {feedback.length === 0 ? (
                     <div className="text-center py-10 text-gray-500">

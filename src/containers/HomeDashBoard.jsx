@@ -8,9 +8,9 @@ function HomeDashBoard() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Top Header with mobile menu button */}
+ 
       <div className="h-14 bg-white flex items-center sticky top-0 z-50 border-b border-gray-200">
-        <button 
+        <button
           className="md:hidden ml-4 p-2 rounded-md text-gray-500 hover:bg-gray-100"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         >
@@ -21,9 +21,7 @@ function HomeDashBoard() {
         <TopHeader />
       </div>
 
-      {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar - responsive width */}
         <div className={`
           ${sidebarOpen ? 'w-64' : 'w-20'} 
           border-r-2 border-gray-200 
@@ -37,16 +35,19 @@ function HomeDashBoard() {
           <SideHeader collapsed={!sidebarOpen} />
         </div>
 
-        {/* Overlay for mobile */}
-        {!sidebarOpen && (
-          <div 
-            className="fixed inset-0 bg-opacity-50 z-30 md:hidden"
-            onClick={() => setSidebarOpen(true)}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-white/40 z-30 md:hidden"
+            onClick={() => setSidebarOpen(false)}
           />
+
         )}
 
-        {/* Main Content */}
-        <div className="flex-1 p-6 bg-gray-50 overflow-y-auto h-[calc(100vh-3.5rem)] ml-20 md:ml-0">
+        <div className={`
+          flex-1 p-6 bg-gray-50 overflow-y-auto h-[calc(100vh-3.5rem)] 
+          transition-all duration-300 ease-in-out
+          ${sidebarOpen ? 'ml-64 md:ml-0' : 'ml-20 md:ml-0'}
+        `}>
           <Outlet />
         </div>
       </div>
