@@ -67,42 +67,20 @@ function AddViewWalletSection() {
 
             <div className="grid grid-cols-2 gap-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Initial Balance *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Initial Balance *
+                    </label>
                     <div className="relative">
-                        <select
-                            name="currency"
+                        <input
+                            name="balance"
                             value={newWallet.currency}
                             onChange={''}
-                            className="absolute left-0 top-0 h-full px-2 border-r border-gray-300 bg-gray-100 rounded-l-md"
-                        >
-                            <option >99</option>
-                        </select>
-                        <input
-                            type="number"
-                            name="balance"
-                            value={newWallet.balance}
-                            onChange={''}
-                            className="w-full pl-12 p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 appearance-none"
                             placeholder="0.00"
-                            step="0.01"
+                            
                             required
                         />
                     </div>
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Currency *</label>
-                    <select
-                        name="currency"
-                        value={newWallet.currency}
-                        onChange={''}
-                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                        required
-                    >
-
-                        <option >99</option>
-
-                    </select>
                 </div>
             </div>
 
