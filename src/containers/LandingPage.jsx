@@ -13,6 +13,16 @@ const LandingPage = () => {
         name: '',
         confirmPassword: ''
     })
+    const [errors, setErrors] = useState({
+        email: '',
+        password: '',
+        name: '',
+        confirmPassword: ''
+    })
+
+    const mockUsers = [
+        { email: 'user@example.com', password: 'password123', name: 'Test User' }
+    ]
 
     const carouselItems = [
         {
@@ -40,12 +50,98 @@ const LandingPage = () => {
     const handleInputChange = (e) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: '' }))
+        }
+    }
+
+    const handleFormToggle = () => {
+        setIsLogin(!isLogin)
+        setErrors({ email: '', password: '', name: '', confirmPassword: '' })
+        setFormData({
+            email: '',
+            password: '',
+            name: '',
+            confirmPassword: ''
+        })
+    }
+
+    const validateForm = () => {
+        let valid = true
+        const newErrors = { email: '', password: '', name: '', confirmPassword: '' }
+
+        if (!formData.email.trim()) {
+            newErrors.email = 'Please enter email'
+            setErrors(newErrors)
+            return false
+        } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+            newErrors.email = 'Email is invalid'
+            setErrors(newErrors)
+            return false
+        }
+
+        if (!formData.password) {
+            newErrors.password = 'Please enter password'
+            setErrors(newErrors)
+            return false
+        } else if (formData.password.length < 6) {
+            newErrors.password = 'Password must be at least 6 characters'
+            setErrors(newErrors)
+            return false
+        }
+
+        if (!isLogin) {
+            if (!formData.name.trim()) {
+                newErrors.name = 'Please enter your name'
+                setErrors(newErrors)
+                return false
+            }
+
+            if (!formData.confirmPassword) {
+                newErrors.confirmPassword = 'Please confirm your password'
+                setErrors(newErrors)
+                return false
+            } else if (formData.password !== formData.confirmPassword) {
+                newErrors.confirmPassword = 'Passwords do not match'
+                setErrors(newErrors)
+                return false
+            }
+        }
+
+        setErrors(newErrors)
+        return true
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // Handle form submission
-        console.log(formData)
+        
+        if (!validateForm()) {
+            return
+        }
+
+        if (isLogin) {
+
+            const user = mockUsers.find(user => user.email === formData.email)
+            if (!user) {
+                setErrors({ email: 'Email not registered', password: '' })
+            } else if (user.password !== formData.password) {
+                setErrors({ email: '', password: 'Incorrect password' })
+            } else {
+                
+                console.log('Login successful', user)
+               
+            }
+        } else {
+            
+            const emailExists = mockUsers.some(user => user.email === formData.email)
+            if (emailExists) {
+                setErrors({ email: 'Email already registered', password: '', name: '', confirmPassword: '' })
+            } else {
+                
+                console.log('Registration successful', formData)
+                handleFormToggle()
+            }
+        }
     }
 
     return (
@@ -54,10 +150,9 @@ const LandingPage = () => {
             <div className="md:w-1/2 text-white p-8 flex flex-col justify-center">
                 <div className="max-w-md mx-auto">
                     <Link to={'/home'}><h1 className="text-4xl font-bold mb-6">Personal Finance Tracker</h1></Link>
-                    
                     <p className="text-xl mb-8 opacity-90">Take control of your financial future with our comprehensive tracking tools.</p>
 
-                    <div className=" bg-opacity-10 border-1 border-white rounded-xl p-6 backdrop-blur-sm">
+                    <div className="bg-opacity-10 border-1 border-white rounded-xl p-6 backdrop-blur-sm">
                         <Carousel
                             showArrows={false}
                             showStatus={false}
@@ -73,7 +168,7 @@ const LandingPage = () => {
                                 <button
                                     type="button"
                                     onClick={onClickHandler}
-                                    className={`h-2 w-2 mx-1 rounded-full ${isSelected ? 'bg-white' : 'bg-white bg-opacity-30'}`}
+                                    className={`cursor-pointer h-2 w-2 mx-1 rounded-full ${isSelected ? 'bg-white' : 'bg-white bg-opacity-30'}`}
                                     aria-label={label}
                                 />
                             )}
@@ -90,9 +185,9 @@ const LandingPage = () => {
                 </div>
             </div>
 
+            {/* Right side Login/REgister - Form */}
             <div className="md:w-1/2 flex items-center justify-center p-8">
                 <div className="w-full max-w-md">
-
                     <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-lg">
                         <h2 className="text-2xl font-bold mb-6 text-gray-800">
                             {isLogin ? 'Welcome back!' : 'Create your account'}
@@ -106,9 +201,10 @@ const LandingPage = () => {
                                     name="name"
                                     value={formData.name}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
                                     required
                                 />
+                                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                             </div>
                         )}
 
@@ -119,9 +215,10 @@ const LandingPage = () => {
                                 name="email"
                                 value={formData.email}
                                 onChange={handleInputChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
                                 required
                             />
+                            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                         </div>
 
                         <div className="mb-4">
@@ -131,9 +228,10 @@ const LandingPage = () => {
                                 name="password"
                                 value={formData.password}
                                 onChange={handleInputChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className={`w-full px-4 py-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
                                 required
                             />
+                            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
                         </div>
 
                         {!isLogin && (
@@ -144,9 +242,10 @@ const LandingPage = () => {
                                     name="confirmPassword"
                                     value={formData.confirmPassword}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    className={`w-full px-4 py-2 border ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
                                     required
                                 />
+                                {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
                             </div>
                         )}
 
@@ -162,7 +261,7 @@ const LandingPage = () => {
 
                         <button
                             type="submit"
-                            className="w-full cursor-pointer bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-200 flex items-center justify-center"
+                            className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-200 flex items-center justify-center"
                         >
                             {isLogin ? 'Sign In' : 'Create Account'}
                             <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
@@ -173,7 +272,7 @@ const LandingPage = () => {
                                 {isLogin ? "Don't have an account? " : "Already have an account? "}
                                 <button
                                     type="button"
-                                    onClick={() => setIsLogin(!isLogin)}
+                                    onClick={handleFormToggle}
                                     className="text-indigo-600 hover:underline cursor-pointer font-medium"
                                 >
                                     {isLogin ? 'Register here' : 'Sign in here'}

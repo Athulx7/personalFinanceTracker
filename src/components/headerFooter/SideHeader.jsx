@@ -100,10 +100,12 @@ function SideHeader({ collapsed }) {
                     </nav>
                 </div>
 
-                <div className='px-4 py-3 mt-4'>
+                <div className={`py-3 ${collapsed ? 'px-1' : 'px-1'}`}>
+                    {!collapsed && (
                     <div className='font-semibold text-gray-500 text-sm uppercase tracking-wider mb-2'>
                         Help & Settings
                     </div>
+                     )}
                     <nav className='space-y-1'>
                         <NavLink
                             to="/home/settings"
@@ -151,13 +153,15 @@ function SideHeader({ collapsed }) {
                 </div>
             </div>
 
-            <div className='px-4 py-3'>
+            <div className={`py-3 mb-15 ${collapsed ? 'px-1' : 'px-1'}`}>
                 <NavLink
                     to="/"
                     className="flex items-center px-3 py-2.5 rounded-lg transition-all duration-200 text-gray-600 hover:bg-red-50 hover:text-red-600"
                 >
                     <FontAwesomeIcon icon={faCircleLeft} className="w-5 text-center" />
+                    {!collapsed && (
                     <span className="ms-3">Log Out</span>
+                    )}
                 </NavLink>
             </div>
         </div>
