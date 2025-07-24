@@ -13,6 +13,7 @@ const CommonStatusPopUp = ({
   onClose = () => {},
   title = "",
   children = null,
+  body = "",
   primaryButtonText = "",
   secondaryButtonText = "",
   onPrimaryButtonClick = () => {},
@@ -68,6 +69,7 @@ const CommonStatusPopUp = ({
   }
 
   const currentType = typeConfig[type] || typeConfig.default
+  const content = body || children
 
   return (
     <AnimatePresence>
@@ -118,7 +120,7 @@ const CommonStatusPopUp = ({
                     {title}
                   </h3>
                 )}
-                {children && <div className="text-sm text-gray-600">{children}</div>}
+                {content && <div className="text-sm text-gray-600">{content}</div>}
               </div>
             )}
 
