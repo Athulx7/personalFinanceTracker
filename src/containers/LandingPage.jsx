@@ -4,6 +4,9 @@ import { faArrowRight, faChartLine, faPiggyBank, faWallet, faHandHoldingUsd } fr
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Link } from 'react-router-dom'
+import { registerApi } from '../Services/ApiCall'
+import CommonStatusPopUp from '../basicComponents/CommonStatusPopUp'
+import { body } from 'framer-motion/client'
 
 const LandingPage = () => {
     const [isLogin, setIsLogin] = useState(true)
@@ -20,9 +23,11 @@ const LandingPage = () => {
         confirmPassword: ''
     })
 
-    const mockUsers = [
-        { email: 'user@example.com', password: 'password123', name: 'Test User' }
-    ]
+    const [openStatusPopUp, setOpenStatusPopUp] = useState({
+        isOpen : false,
+        type: 'success',
+        body: ''
+    })
 
     const carouselItems = [
         {
@@ -84,8 +89,8 @@ const LandingPage = () => {
             newErrors.password = 'Please enter password'
             setErrors(newErrors)
             return false
-        } else if (formData.password.length < 6) {
-            newErrors.password = 'Password must be at least 6 characters'
+        } else if (formData.password.length < 3) {
+            newErrors.password = 'Password must be at least 3 characters'
             setErrors(newErrors)
             return false
         }
@@ -112,9 +117,9 @@ const LandingPage = () => {
         return true
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        
+
         if (!validateForm()) {
             return
         }
@@ -127,19 +132,30 @@ const LandingPage = () => {
             } else if (user.password !== formData.password) {
                 setErrors({ email: '', password: 'Incorrect password' })
             } else {
-                
+
                 console.log('Login successful', user)
-               
+
             }
         } else {
-            
-            const emailExists = mockUsers.some(user => user.email === formData.email)
-            if (emailExists) {
+            const regResponce = await registerApi(formData)
+            console.log(regResponce.status)
+            if (regResponce.status === 400) {
                 setErrors({ email: 'Email already registered', password: '', name: '', confirmPassword: '' })
-            } else {
-                
-                console.log('Registration successful', formData)
-                handleFormToggle()
+            }
+            else if (regResponce.status === 201) {
+                setOpenStatusPopUp({
+                    isOpen: true,
+                    type: 'success',
+                    body: 'Registration successful! Please login...'
+                })
+                handleFormToggle();
+            }
+            else {
+                setOpenStatusPopUp({
+                    isOpen: true,
+                    type: 'error',
+                    body: 'Registration failed. Please try again later.'
+                })
             }
         }
     }
@@ -282,6 +298,15 @@ const LandingPage = () => {
                     </form>
                 </div>
             </div>
+            {
+                openStatusPopUp.isOpen &&
+                <CommonStatusPopUp
+                    isOpen={openStatusPopUp.isOpen}
+                    onClose={() => setOpenStatusPopUp(prev => ({ ...prev, isOpen: false }))}
+                    type={openStatusPopUp.type}
+                    body={openStatusPopUp.body}
+                />
+            }
         </div>
     )
 }
