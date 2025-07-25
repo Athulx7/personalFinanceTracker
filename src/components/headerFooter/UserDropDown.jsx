@@ -19,8 +19,11 @@ function UserDropDown() {
     }, []);
 
     const handleLogout = () => {
-        navigate('/login')
+        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('user')
+        navigate('/')
     }
+    const userDetails = JSON.parse(sessionStorage.getItem('user'));
 
     return (
         <div className="relative" ref={dropdownRef}>
@@ -31,9 +34,9 @@ function UserDropDown() {
                 aria-expanded={open}
             >
                 <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gray-200 text-indigo-600 flex items-center justify-center font-bold">
-                    U
+                    {userDetails.name.charAt(0).toUpperCase()}
                 </div>
-                <span className='ms-2 font-semibold hidden md:inline'>User Name</span>
+                <span className='ms-2 font-semibold hidden md:inline'>{userDetails.name}</span>
                 <FontAwesomeIcon 
                     className='text-indigo-500 ms-1 md:ms-2 text-sm' 
                     icon={open ? faChevronUp : faChevronDown} 
@@ -46,7 +49,7 @@ function UserDropDown() {
                         <li
                             className="px-4 py-2 hover:bg-indigo-50 cursor-pointer flex items-center"
                             onClick={() => {
-                                navigate('/profile');
+                                navigate('/home/profile');
                                 setOpen(false);
                             }}
                         >

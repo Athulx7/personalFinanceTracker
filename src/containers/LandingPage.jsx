@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faChartLine, faPiggyBank, faWallet, faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faChartLine, faPiggyBank, faWallet, faHandHoldingUsd, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
-import { Link } from 'react-router-dom'
-import { registerApi } from '../Services/ApiCall'
+import { Link, useNavigate } from 'react-router-dom'
+import { loginApi, registerApi } from '../Services/ApiCall'
 import CommonStatusPopUp from '../basicComponents/CommonStatusPopUp'
-import { body } from 'framer-motion/client'
+import { tr } from 'framer-motion/client'
 
 const LandingPage = () => {
     const [isLogin, setIsLogin] = useState(true)
+    const navigate = useNavigate()
+    const [isLoginLoader, setIsLoginLoader] = useState(false)
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -20,7 +22,8 @@ const LandingPage = () => {
         email: '',
         password: '',
         name: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        loginOrReg : ''
     })
 
     const [openStatusPopUp, setOpenStatusPopUp] = useState({
@@ -118,46 +121,56 @@ const LandingPage = () => {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        setIsLoginLoader(true)
+        try {
+            e.preventDefault()
 
-        if (!validateForm()) {
-            return
-        }
+            if (!validateForm()) {
+                return
+            }
 
-        if (isLogin) {
+            if (isLogin) {
+                const logrResponce = await loginApi(formData)
 
-            const user = mockUsers.find(user => user.email === formData.email)
-            if (!user) {
-                setErrors({ email: 'Email not registered', password: '' })
-            } else if (user.password !== formData.password) {
-                setErrors({ email: '', password: 'Incorrect password' })
+                if (logrResponce.status === 404) {
+                    setErrors({ email: 'Email not registered', password: '' })
+                }
+                else if (logrResponce.status === 401) {
+                    setErrors({ email: '', password: 'Incorrect password' })
+                }
+                else if (logrResponce.status === 201) {
+                    sessionStorage.setItem('user', JSON.stringify(logrResponce.data.user))
+                    sessionStorage.setItem('token', logrResponce.data.token)
+                    navigate('/home')
+
+                }
+                else {
+                    setErrors({name:'', email: '', password: '' ,confirmPassword: '', loginOrReg: 'Login failed. Please try again later.' })
+                }
             } else {
-
-                console.log('Login successful', user)
-
-            }
-        } else {
-            const regResponce = await registerApi(formData)
-            console.log(regResponce.status)
-            if (regResponce.status === 400) {
-                setErrors({ email: 'Email already registered', password: '', name: '', confirmPassword: '' })
-            }
-            else if (regResponce.status === 201) {
-                setOpenStatusPopUp({
-                    isOpen: true,
-                    type: 'success',
-                    body: 'Registration successful! Please login...'
-                })
-                handleFormToggle();
-            }
-            else {
-                setOpenStatusPopUp({
-                    isOpen: true,
-                    type: 'error',
-                    body: 'Registration failed. Please try again later.'
-                })
+                const regResponce = await registerApi(formData)
+                // console.log(regResponce.status)
+                if (regResponce.status === 400) {
+                    setErrors({ email: 'Email already registered', password: '', name: '', confirmPassword: '' })
+                }
+                else if (regResponce.status === 201) {
+                    setOpenStatusPopUp({
+                        isOpen: true,
+                        type: 'success',
+                        body: 'Registration successful! Please login...'
+                    })
+                    handleFormToggle();
+                }
+                else {
+                    setErrors({ email: '', password: '', name: '', confirmPassword: '', loginOrReg: 'Registration failed. Please try again later.' })
+                }
             }
         }
+        catch (error) {
+            console.error('Error during form submission:', error)
+            setErrors({ email: '', name:'', password: '', confirmPassword: '', loginOrReg: 'An error occurred. Please try again later.'})
+        }
+        setIsLoginLoader(false)
     }
 
     return (
@@ -165,7 +178,7 @@ const LandingPage = () => {
 
             <div className="md:w-1/2 text-white p-8 flex flex-col justify-center">
                 <div className="max-w-md mx-auto">
-                    <Link to={'/home'}><h1 className="text-4xl font-bold mb-6">Personal Finance Tracker</h1></Link>
+                    <Link to={'/'}><h1 className="text-4xl font-bold mb-6">Personal Finance Tracker</h1></Link>
                     <p className="text-xl mb-8 opacity-90">Take control of your financial future with our comprehensive tracking tools.</p>
 
                     <div className="bg-opacity-10 border-1 border-white rounded-xl p-6 backdrop-blur-sm">
@@ -277,13 +290,25 @@ const LandingPage = () => {
 
                         <button
                             type="submit"
-                            className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-200 flex items-center justify-center"
+                            disabled={isLoginLoader}
+                            className={`w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-200 flex items-center justify-center ${isLoginLoader ? 'cursor-not-allowed' : ''
+                                }`}
                         >
-                            {isLogin ? 'Sign In' : 'Create Account'}
-                            <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                            {isLoginLoader ? (
+                                <FontAwesomeIcon
+                                    icon={faCircleNotch}
+                                    className="animate-spin h-10 w-10"
+                                />
+                            ) : (
+                                <>
+                                    {isLogin ? 'Sign In' : 'Create Account'}
+                                    <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                                </>
+                            )}
                         </button>
+                        {errors.loginOrReg != '' ?  <p className='text-center text-red-500 mt-1'>{errors.loginOrReg}</p> : null}
 
-                        <div className="mt-6 text-center">
+                        <div className="mt-3 text-center">
                             <p className="text-gray-600">
                                 {isLogin ? "Don't have an account? " : "Already have an account? "}
                                 <button
