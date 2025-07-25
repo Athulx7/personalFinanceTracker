@@ -11,12 +11,7 @@ function SettingsPage() {
         password: false
     })
 
-    const [user, setUser] = useState({
-        name: 'User Name',
-        email: 'username@example.com',
-        phone: '+91 9999999999'
-    })
-
+    const user = JSON.parse(sessionStorage.getItem('user'))
 
     const [Notisettings, setNotiSettings] = useState({
         emailNotifications: true,
@@ -44,7 +39,6 @@ function SettingsPage() {
                         editMode={editMode}
                         setEditMode={setEditMode}
                         user={user}
-                        setUser={setUser}
                         toggleEditMode={toggleEditMode}
                     />
                 </div>

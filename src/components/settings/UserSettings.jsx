@@ -2,7 +2,7 @@ import { faEdit, faSave, faTimes, faUser } from '@fortawesome/free-solid-svg-ico
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 
-function UserSettings({ editMode, setEditMode, user, setUser, toggleEditMode }) {
+function UserSettings({ editMode, setEditMode, user, toggleEditMode }) {
     return (
         <>
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
@@ -34,7 +34,7 @@ function UserSettings({ editMode, setEditMode, user, setUser, toggleEditMode }) 
                     <div className="flex flex-col items-center">
                         <div className="relative mb-4">
                             <img
-                                src={user.previewImage || "https://ui-avatars.com/api/?name=" + user.name}
+                                src={"https://ui-avatars.com/api/?name=" + user.name}
                                 alt="Profile"
                                 className="w-24 h-24 rounded-full object-cover border-2 border-indigo-100"
                             />
@@ -79,12 +79,12 @@ function UserSettings({ editMode, setEditMode, user, setUser, toggleEditMode }) 
                                 <input
                                     type="tel"
                                     name="phone"
-                                    value={user.phone}
+                                    value={user.phone ? user.phone : '0000000000'}
                                     onChange={''}
                                     className="w-full p-2 border border-gray-400 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                                 />
                             ) : (
-                                <p className="p-2 text-gray-900 px-2 py-2 border-2 border-gray-100">{user.phone}</p>
+                                <p className="p-2 text-gray-900 px-2 py-2 border-2 border-gray-100">+91 {user.phone ? user.phone : '0000000000'}</p>
                             )}
                         </div>
 

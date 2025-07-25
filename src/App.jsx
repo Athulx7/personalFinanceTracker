@@ -21,6 +21,8 @@ import MainSettings from './components/settings/MainSettings'
 import MainFeedBackTest from './components/feedBack/MainFeedBackTest'
 import MainFeedBack from './components/feedBack/MainFeedBack'
 import HelpMain from './components/help/HelpMain'
+import RouteProtection from './route-protection/RouteProtection'
+import Myprofile from './components/myprofile/Myprofile'
 
 function App() {
   return (
@@ -28,7 +30,7 @@ function App() {
     <Routes>
       <Route path='/' element={<LandingPage />} /> 
 
-      <Route path='/home' element={<HomeDashBoard />} >
+      <Route path='/home' element={<RouteProtection><HomeDashBoard /></RouteProtection>} >
         <Route index element={<MainDash />} />
         {/* <Route path='wallet' element={<MainWallet />} /> */}
         <Route path='wallet' element={<MainMyWallet />} />
@@ -51,6 +53,7 @@ function App() {
         {/* <Route path='feedback' element = {<MainFeedBackTest />} /> */}
         <Route path='feedback' element = {<MainFeedBack />} />
         <Route path='help' element = {<HelpMain />} />
+        <Route path='profile' element={<Myprofile />} />
 
       </Route> 
 

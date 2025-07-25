@@ -1,9 +1,15 @@
 import { faCircleInfo, faCircleLeft, faComment, faFile, faGear, faHouse, faMessage, faRightLeft, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function SideHeader({ collapsed }) {
+    const navigate = useNavigate()
+    const handleLogout = () => {
+        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('user')
+        navigate('/')
+    }
     return (
         <div className={`h-full flex flex-col justify-between ${collapsed ? 'px-2' : 'px-4'}`}>
             <div className="flex flex-col">
@@ -154,15 +160,14 @@ function SideHeader({ collapsed }) {
             </div>
 
             <div className={`py-3 mb-15 ${collapsed ? 'px-1' : 'px-1'}`}>
-                <NavLink
-                    to="/"
-                    className="flex items-center px-3 py-2.5 rounded-lg transition-all duration-200 text-gray-600 hover:bg-red-50 hover:text-red-600"
+                <div onClick={handleLogout}
+                    className="flex items-center cursor-pointer px-3 py-2.5 rounded-lg transition-all duration-200 text-gray-600 hover:bg-red-50 hover:text-red-600"
                 >
                     <FontAwesomeIcon icon={faCircleLeft} className="w-5 text-center" />
                     {!collapsed && (
                     <span className="ms-3">Log Out</span>
                     )}
-                </NavLink>
+                </div>
             </div>
         </div>
     )
