@@ -6,7 +6,6 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { loginApi, registerApi } from '../Services/ApiCall'
 import CommonStatusPopUp from '../basicComponents/CommonStatusPopUp'
-import { tr } from 'framer-motion/client'
 
 const LandingPage = () => {
     const [isLogin, setIsLogin] = useState(true)

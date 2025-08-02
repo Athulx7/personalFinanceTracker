@@ -1,31 +1,32 @@
-import { faCreditCard, faEdit, faMobileAlt, faMoneyBillAlt, faPlus, faTrashAlt, faUniversity } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faPlus, faTrashAlt, faUniversity } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react'
+import React from 'react'
 import CommonModal from '../../basicComponents/CommonModal';
 
-function AddViewWalletSection() {
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const walletTypes = [
-        { value: 'bank', label: 'Bank Account', icon: faUniversity },
-        { value: 'credit', label: 'Credit Card', icon: faCreditCard },
-        { value: 'cash', label: 'Cash', icon: faMoneyBillAlt },
-        { value: 'digital', label: 'Digital Wallet', icon: faMobileAlt }
-    ];
-    const [newWallet, setNewWallet] = useState({
-        name: '',
-        type: 'bank',
-        balance: '',
-        currency: '₹'
-    });
+function AddViewWalletSection({ token, walletTypes, newWallet, setNewWallet, addNewWalletApiCAll, isModalOpen, setIsModalOpen }) {
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setNewWallet((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleTypeChange = (value) => {
+        setNewWallet((prev) => ({
+            ...prev,
+            type: value
+        }))
+    }
     const addNewWalletForm = () => (
-        <form className="space-y-4">
+        <div className="space-y-4">
             <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Wallet Name *</label>
                 <input
                     type="text"
                     name="name"
-                    value={''}
-                    onChange={''}
+                    value={newWallet.name}
+                    onChange={handleChange}
                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                     placeholder="e.g., SBI Savings Account"
                     required
@@ -39,8 +40,8 @@ function AddViewWalletSection() {
                         <label
                             key={type.value}
                             className={`flex items-center p-3 border rounded-md cursor-pointer ${newWallet.type === type.value
-                                    ? 'border-indigo-500 bg-indigo-50'
-                                    : 'border-gray-300 hover:bg-gray-50'
+                                ? 'border-indigo-500 bg-indigo-50'
+                                : 'border-gray-300 hover:bg-gray-50'
                                 }`}
                         >
                             <input
@@ -48,15 +49,15 @@ function AddViewWalletSection() {
                                 name="type"
                                 value={type.value}
                                 checked={newWallet.type === type.value}
-                                onChange={''}
+                                onChange={() => handleTypeChange(type.value)}
                                 className="hidden"
                                 required
                             />
                             <FontAwesomeIcon
                                 icon={type.icon}
                                 className={`mr-2 ${newWallet.type === type.value
-                                        ? 'text-indigo-600'
-                                        : 'text-gray-500'
+                                    ? 'text-indigo-600'
+                                    : 'text-gray-500'
                                     }`}
                             />
                             <span>{type.label}</span>
@@ -71,13 +72,15 @@ function AddViewWalletSection() {
                         Initial Balance *
                     </label>
                     <div className="relative">
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <span className="text-gray-500">₹</span>
+                        </div>
                         <input
                             name="balance"
-                            value={newWallet.currency}
-                            onChange={''}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 appearance-none"
+                            value={newWallet.balance}
+                            onChange={handleChange}
+                            className="w-full pl-7 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 appearance-none"
                             placeholder="0.00"
-                            
                             required
                         />
                     </div>
@@ -93,13 +96,13 @@ function AddViewWalletSection() {
                     Cancel
                 </button>
                 <button
-                    type="submit"
+                    onClick={addNewWalletApiCAll}
                     className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
                 >
                     Add Wallet
                 </button>
             </div>
-        </form>
+        </div>
     );
     return (
         <>

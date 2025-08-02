@@ -8,3 +8,8 @@ export const loginApi = async (formData) => {
 export const registerApi = async (formData) => {
     return await commonApi('POST', `${baseURL}user/register`, formData, '')
 }
+
+// wallet 
+export const AddNewWalletAPI = async (walletData,header) => {
+    return await commonApi('POST', `${baseURL}add/wallet`, walletData, header)
+}
