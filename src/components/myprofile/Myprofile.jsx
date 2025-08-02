@@ -60,7 +60,7 @@ function MyProfile() {
                     <div className="flex-1">
                         <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Member Since</h3>
                         <p className="text-gray-800 font-medium">
-                            {profile.joinDate ? profile.joinDate : 'Unknown'}
+                            {profile.createdAt ? profile.createdAt : 'Unknown'}
                         </p>
                     </div>
                 </div>
